@@ -82,12 +82,28 @@ class _MyAppHomeScreenState extends State<MyAppHomeScreen> {
               StreamBuilder(
                 stream: selectedRecipes.snapshots(),
                 builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (snapshot.hasError) {
+                    return Center(child: Text('Error: ${snapshot.error}'));
+                  }
+
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(child: CircularProgressIndicator());
+                  }
+
                   if (snapshot.hasData) {
                     final List<DocumentSnapshot> recipes =
                         snapshot.data?.docs ?? [];
+
+                    if (recipes.isEmpty) {
+                      return Center(
+                        child: Text('No recipes found for category: $category'),
+                      );
+                    }
+
                     return Padding(
                       padding: const EdgeInsets.only(top: 5, left: 15),
                       child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
                         child: Row(
                           children: recipes
                               .map((e) => FoodItemsDisplay(documentSnapshot: e))
@@ -110,45 +126,88 @@ class _MyAppHomeScreenState extends State<MyAppHomeScreen> {
     return StreamBuilder(
       stream: categoriesItems.snapshots(),
       builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
+        if (streamSnapshot.hasError) {
+          return Center(
+            child: Text('Error loading categories: ${streamSnapshot.error}'),
+          );
+        }
+
+        if (streamSnapshot.connectionState == ConnectionState.waiting) {
+          return Center(child: CircularProgressIndicator());
+        }
+
         if (streamSnapshot.hasData) {
-          return SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              children: List.generate(
-                streamSnapshot.data!.docs.length,
-                (index) => GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      category == streamSnapshot.data!.docs[index]["name"];
-                    });
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(25),
+          // Agregar categoría "All" al inicio
+          List<Widget> categoryWidgets = [
+            GestureDetector(
+              onTap: () {
+                setState(() {
+                  category = "All";
+                });
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(25),
+                  color: category == "All" ? kprimaryColor : Colors.white,
+                ),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 10,
+                ),
+                margin: const EdgeInsets.only(right: 20),
+                child: Text(
+                  "All",
+                  style: TextStyle(
+                    color: category == "All"
+                        ? Colors.white
+                        : Colors.grey.shade600,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ),
+          ];
+
+          // Agregar las categorías de Firebase
+          categoryWidgets.addAll(
+            List.generate(
+              streamSnapshot.data!.docs.length,
+              (index) => GestureDetector(
+                onTap: () {
+                  setState(() {
+                    category = streamSnapshot.data!.docs[index]["name"];
+                  });
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(25),
+                    color: category == streamSnapshot.data!.docs[index]["name"]
+                        ? kprimaryColor
+                        : Colors.white,
+                  ),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 10,
+                  ),
+                  margin: const EdgeInsets.only(right: 20),
+                  child: Text(
+                    streamSnapshot.data!.docs[index]["name"],
+                    style: TextStyle(
                       color:
                           category == streamSnapshot.data!.docs[index]["name"]
-                          ? kprimaryColor
-                          : Colors.white,
-                    ),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                      vertical: 10,
-                    ),
-                    margin: const EdgeInsets.only(right: 20),
-                    child: Text(
-                      streamSnapshot.data!.docs[index]["name"],
-                      style: TextStyle(
-                        color:
-                            category == streamSnapshot.data!.docs[index]["name"]
-                            ? Colors.white
-                            : Colors.grey.shade600,
-                        fontWeight: FontWeight.w600,
-                      ),
+                          ? Colors.white
+                          : Colors.grey.shade600,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                 ),
               ),
             ),
+          );
+
+          return SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(children: categoryWidgets),
           );
         }
         return Center(child: CircularProgressIndicator());
