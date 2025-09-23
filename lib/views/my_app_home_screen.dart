@@ -54,23 +54,27 @@ class _MyAppHomeScreenState extends State<MyAppHomeScreen> {
                     ),
                     selectedCategory(),
                     const SizedBox(height: 10),
-                    const Text(
-                      "Quick & Easy",
-                      style: TextStyle(
-                        fontSize: 20,
-                        letterSpacing: 0.1,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    TextButton(
-                      onPressed: () {},
-                      child: Text(
-                        "View all",
-                        style: TextStyle(
-                          color: kBannerColor,
-                          fontWeight: FontWeight.w600,
+                    Row(
+                      children: [
+                        const Text(
+                          "Quick & Easy",
+                          style: TextStyle(
+                            fontSize: 20,
+                            letterSpacing: 0.1,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ),
+                        TextButton(
+                          onPressed: () {},
+                          child: Text(
+                            "View all",
+                            style: TextStyle(
+                              color: kBannerColor,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),

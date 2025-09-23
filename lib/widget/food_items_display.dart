@@ -21,7 +21,7 @@ class FoodItemsDisplay extends StatelessWidget {
                 borderRadius: BorderRadius.circular(15),
                 image: DecorationImage(
                   fit: BoxFit.cover,
-                  image: NetworkImage(documentSnapshot['image']),
+                  image: NetworkImage(documentSnapshot["image"]),
                 ),
               ),
             ),
