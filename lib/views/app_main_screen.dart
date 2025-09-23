@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:yummygo/const/constants.dart';
-import 'package:yummygo/main.dart';
 import 'package:yummygo/views/my_app_home_screen.dart';
 
 class AppMainScreen extends StatefulWidget {

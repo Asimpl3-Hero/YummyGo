@@ -1,9 +1,9 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:yummygo/const/constants.dart';
 import 'package:yummygo/widget/banner.dart';
+import 'package:yummygo/widget/food_items_display.dart';
 import 'package:yummygo/widget/my_icon_button.dart';
 
 class MyAppHomeScreen extends StatefulWidget {
@@ -17,6 +17,13 @@ class _MyAppHomeScreenState extends State<MyAppHomeScreen> {
   String category = "All";
   final CollectionReference categoriesItems = FirebaseFirestore.instance
       .collection("Categorias");
+  Query get fileteredRecipes => FirebaseFirestore.instance
+      .collection("Complete-Flutter-App")
+      .where('category', isEqualTo: category);
+  Query get allRecipes =>
+      FirebaseFirestore.instance.collection("Complete-Flutter-App");
+  Query get selectedRecipes =>
+      category == "All" ? allRecipes : fileteredRecipes;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,8 +53,8 @@ class _MyAppHomeScreenState extends State<MyAppHomeScreen> {
                       ),
                     ),
                     selectedCategory(),
-                    SizedBox(height: 10),
-                    Text(
+                    const SizedBox(height: 10),
+                    const Text(
                       "Quick & Easy",
                       style: TextStyle(
                         fontSize: 20,
@@ -59,11 +66,34 @@ class _MyAppHomeScreenState extends State<MyAppHomeScreen> {
                       onPressed: () {},
                       child: Text(
                         "View all",
-                        style: TextStyle(color: kBannerColor),
+                        style: TextStyle(
+                          color: kBannerColor,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     ),
                   ],
                 ),
+              ),
+              StreamBuilder(
+                stream: selectedRecipes.snapshots(),
+                builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (snapshot.hasData) {
+                    final List<DocumentSnapshot> recipes =
+                        snapshot.data?.docs ?? [];
+                    return Padding(
+                      padding: const EdgeInsets.only(top: 5, left: 15),
+                      child: SingleChildScrollView(
+                        child: Row(
+                          children: recipes
+                              .map((e) => FoodItemsDisplay(documentSnapshot: e))
+                              .toList(),
+                        ),
+                      ),
+                    );
+                  }
+                  return Center(child: CircularProgressIndicator());
+                },
               ),
             ],
           ),

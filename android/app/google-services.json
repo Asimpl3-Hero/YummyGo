@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "53134989877",
+    "project_id": "yummygo-b7640",
+    "storage_bucket": "yummygo-b7640.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:53134989877:android:8fffd5c52dc39bdcc52f7c",
+        "android_client_info": {
+          "package_name": "com.example.yummygo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAzcXzNAxlE7xF8v5Ask5TgmIFjBoDj_9E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
