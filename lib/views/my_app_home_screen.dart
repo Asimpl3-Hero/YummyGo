@@ -93,36 +93,98 @@ class _MyAppHomeScreenState extends State<MyAppHomeScreen> {
                 stream: selectedRecipes.snapshots(),
                 builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                   if (snapshot.hasError) {
-                    return Center(child: Text('Error: ${snapshot.error}'));
+                    return Center(
+                      child: Padding(
+                        padding: EdgeInsets.all(20),
+                        child: Column(
+                          children: [
+                            Icon(Icons.error, color: Colors.red, size: 50),
+                            SizedBox(height: 10),
+                            Text(
+                              'Error: ${snapshot.error}',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(color: Colors.red),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
                   }
 
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(child: CircularProgressIndicator());
+                    return SizedBox(
+                      height: 200,
+                      child: Center(child: CircularProgressIndicator()),
+                    );
                   }
 
                   if (snapshot.hasData) {
                     final List<DocumentSnapshot> recipes =
                         snapshot.data?.docs ?? [];
 
+                    // Debug: Found ${recipes.length} recipes for category: $category
+
                     if (recipes.isEmpty) {
-                      return Center(
-                        child: Text('No recipes found for category: $category'),
+                      return SizedBox(
+                        height: 200,
+                        child: Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.restaurant_menu,
+                                size: 50,
+                                color: Colors.grey,
+                              ),
+                              SizedBox(height: 10),
+                              Text(
+                                'No recipes found for category: $category',
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 16,
+                                ),
+                              ),
+                              SizedBox(height: 10),
+                              ElevatedButton(
+                                onPressed: () {
+                                  setState(() {
+                                    category = "All";
+                                  });
+                                },
+                                child: Text('Show All Recipes'),
+                              ),
+                            ],
+                          ),
+                        ),
                       );
                     }
 
-                    return Padding(
-                      padding: const EdgeInsets.only(top: 5, left: 15),
-                      child: SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          children: recipes
-                              .map((e) => FoodItemsDisplay(documentSnapshot: e))
-                              .toList(),
+                    return SizedBox(
+                      height: 280,
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 5, left: 15),
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: recipes.length,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding: EdgeInsets.only(right: 15),
+                              child: SizedBox(
+                                width: 200,
+                                child: FoodItemsDisplay(
+                                  documentSnapshot: recipes[index],
+                                ),
+                              ),
+                            );
+                          },
                         ),
                       ),
                     );
                   }
-                  return Center(child: CircularProgressIndicator());
+                  return SizedBox(
+                    height: 200,
+                    child: Center(child: CircularProgressIndicator()),
+                  );
                 },
               ),
             ],
