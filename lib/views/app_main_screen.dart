@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:yummygo/const/constants.dart';
+import 'package:yummygo/views/favorite_screen.dart';
 import 'package:yummygo/views/my_app_home_screen.dart';
 
 class AppMainScreen extends StatefulWidget {
@@ -17,7 +18,7 @@ class _AppMainScreenState extends State<AppMainScreen> {
   void initState() {
     page = [
       const MyAppHomeScreen(),
-      navBarPage(Iconsax.heart5),
+      const FavoriteScreen(),
       navBarPage(Iconsax.calendar5),
       navBarPage(Iconsax.setting_21),
     ];

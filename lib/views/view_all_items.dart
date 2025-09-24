@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:yummygo/const/constants.dart';
-
+import 'package:yummygo/provider/favorite_provider.dart';
 import 'package:yummygo/widget/my_icon_button.dart';
 
 class ViewAllItems extends StatefulWidget {
@@ -19,6 +19,7 @@ class _ViewAllItemsState extends State<ViewAllItems> {
 
   @override
   Widget build(BuildContext context) {
+    final provider = FavoriteProvider.of(context);
     return Scaffold(
       backgroundColor: kBackgroundColor,
       appBar: AppBar(
@@ -159,11 +160,17 @@ class _ViewAllItemsState extends State<ViewAllItems> {
                                 radius: 14,
                                 backgroundColor: Colors.white,
                                 child: InkWell(
-                                  onTap: () {},
+                                  onTap: () {
+                                    provider.toggleFavorite(documentSnapshot);
+                                  },
                                   child: Icon(
-                                    Iconsax.heart,
-                                    color: Colors.black,
-                                    size: 16,
+                                    provider.isExist(documentSnapshot)
+                                        ? Iconsax.heart5
+                                        : Iconsax.heart,
+                                    color: provider.isExist(documentSnapshot)
+                                        ? Colors.red
+                                        : Colors.black,
+                                    size: 18,
                                   ),
                                 ),
                               ),
