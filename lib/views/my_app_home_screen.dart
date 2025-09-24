@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:yummygo/const/constants.dart';
+import 'package:yummygo/views/view_all_items.dart';
 import 'package:yummygo/widget/banner.dart';
 import 'package:yummygo/widget/food_items_display.dart';
 import 'package:yummygo/widget/my_icon_button.dart';
@@ -33,6 +34,7 @@ class _MyAppHomeScreenState extends State<MyAppHomeScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              SizedBox(height: 10),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 15),
                 child: Column(
@@ -64,8 +66,16 @@ class _MyAppHomeScreenState extends State<MyAppHomeScreen> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
+                        Spacer(),
                         TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => const ViewAllItems(),
+                              ),
+                            );
+                          },
                           child: Text(
                             "View all",
                             style: TextStyle(

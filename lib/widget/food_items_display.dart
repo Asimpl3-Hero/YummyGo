@@ -89,6 +89,18 @@ class FoodItemsDisplay extends StatelessWidget {
                 ),
               ],
             ),
+            Positioned(
+              top: 5,
+              right: 5,
+              child: CircleAvatar(
+                radius: 18,
+                backgroundColor: Colors.white,
+                child: InkWell(
+                  onTap: () {},
+                  child: Icon(Iconsax.heart, color: Colors.black, size: 20),
+                ),
+              ),
+            ),
           ],
         ),
       ),
