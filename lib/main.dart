@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Firebase App',
+      title: 'YummyGo',
       theme: ThemeData(primarySwatch: Colors.blue),
       home: AppMainScreen(),
     );
