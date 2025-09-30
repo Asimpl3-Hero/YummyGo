@@ -2,6 +2,10 @@
 
 Una aplicación móvil de recetas desarrollada con Flutter que te ayuda a descubrir y explorar deliciosas recetas de cocina. Conectada con Firebase para una experiencia en tiempo real.
 
+![Flutter](https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white)
+![Dart](https://img.shields.io/badge/Dart-0175C2?style=for-the-badge&logo=dart&logoColor=white)
+![Material Design](https://img.shields.io/badge/Material%20Design-757575?style=for-the-badge&logo=material-design&logoColor=white)
+
 ## ✨ Características
 
 - **Exploración de Recetas**: Navega por una amplia colección de recetas organizadas por categorías
