@@ -26,6 +26,11 @@ Una aplicación móvil de recetas desarrollada con Flutter que te ayuda a descub
 
 ## 📱 Capturas de Pantalla
 
+<p align="center">
+  <img src="lib/assets/1.jpg" width="300" alt="Captura 1">
+  <img src="lib/assets/2.jpg" width="300" alt="Captura 2">
+</p>
+
 La aplicación incluye:
 
 - Pantalla principal con banner de exploración
